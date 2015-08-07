@@ -8,7 +8,7 @@ namespace MessageGenerator.ViewModels
 {
     class EventCreationViewModel : Classes.ViewModelBase, Interfaces.IMessageCreation
     {
-        private int _PropertyId = 888;
+        private int _PropertyId = 123;
         public int PropertyId
         {
             get { return _PropertyId; }
