@@ -1,0 +1,63 @@
+﻿<UserControl x:Class="MessageGenerator.Views.FloodView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:vm="clr-namespace:MessageGenerator.ViewModels"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+
+    <UserControl.DataContext>
+        <vm:FloodViewModel/>
+    </UserControl.DataContext>
+    <Grid>
+        <Image Source="/MessageGenerator;component/Images/waterpng.png" Stretch="UniformToFill"/>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="7*"/>
+                <RowDefinition Height="3*"/>
+            </Grid.RowDefinitions>
+            <ListBox 
+                ItemsSource="{Binding MessageDisplay}"
+                Margin="10"
+                Background="#59FFFFFF"
+                SelectedIndex="{Binding SelectedIndex}"
+                />
+            <Grid Grid.Row="1" VerticalAlignment="Top" Margin="10,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <TextBox Text="Times to run:" Background="#FFDEDBDB" IsReadOnly="True"/>
+                <TextBox Text="{Binding RunCount}" Grid.Column="1" Margin="0" TextWrapping="Wrap" MaxLength="9999" FlowDirection="RightToLeft"/>
+            </Grid>
+
+            <Grid Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,5,5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <Button 
+                    Content="All"
+                    Width="55" 
+                    Height="30" 
+                    Margin="0,0,5,0"
+                    Command="{Binding AllCommand}"
+                    CommandParameter="All"
+                    />
+                <Button 
+                    Content="Selected" 
+                    Width="55" 
+                    Height="30" 
+                    Grid.Column="1" 
+                    Command="{Binding SelectedCommand}"
+                    CommandParameter="Selected"
+                    />
+            </Grid>
+
+
+
+        </Grid>
+    </Grid>
+</UserControl>

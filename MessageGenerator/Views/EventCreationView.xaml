@@ -1,0 +1,102 @@
+﻿<UserControl x:Class="MessageGenerator.Views.EventCreationView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:vm="clr-namespace:MessageGenerator.ViewModels"
+             mc:Ignorable="d" 
+             
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.DataContext>
+        <vm:EventCreationViewModel/>
+    </UserControl.DataContext>
+    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+        <TextBox Text="Event:" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="White" SelectionBrush="{x:Null}" FontSize="25" Margin="0,0,0,15"/>
+        <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid Margin="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBox Text="Property ID:" VerticalAlignment="Center" HorizontalAlignment="Right" IsReadOnly="True" Foreground="White" Background="{x:Null}" BorderBrush="{x:Null}" Margin="0,0,15,15"/>
+                <TextBox Text="Date:" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Right" IsReadOnly="True" Foreground="White" Background="{x:Null}" BorderBrush="{x:Null}" Margin="0,0,15,15"/>
+                <TextBox Text="Time:" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Right" IsReadOnly="True" Foreground="White" Background="{x:Null}" BorderBrush="{x:Null}" Margin="0,0,15,15"/>
+
+                <TextBox Text="{Binding PropertyId, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="15,0,0,15" Width="50" MaxLength="5"/>
+
+                <Grid HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="1" Grid.Column="1" Margin="15,0,0,15">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBox Text="{Binding Date.Month, UpdateSourceTrigger=PropertyChanged}" BorderBrush="White" MaxLength="2" Width="25"/>
+                    <TextBox Text="/" Grid.Column="1" IsReadOnly="True" BorderBrush="White" SelectionBrush="{x:Null}"/>
+                    <TextBox Text="{Binding Date.Day, UpdateSourceTrigger=PropertyChanged}" Grid.Column="2" BorderBrush="White" MaxLength="2" Width="25"/>
+                    <TextBox Text="/" Grid.Column="3" IsReadOnly="True" BorderBrush="White" SelectionBrush="{x:Null}"/>
+                    <TextBox Text="{Binding Date.Year, UpdateSourceTrigger=PropertyChanged}" Grid.Column="4" MaxLength="2" BorderBrush="White" Width="25"/>
+
+                </Grid>
+                <Grid VerticalAlignment="Center" Grid.Row="2" Grid.Column="2" Margin="15,0,0,15" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBox Text="{Binding Time.Hours, UpdateSourceTrigger=PropertyChanged}" MaxLength="2" BorderBrush="White" Width="25"/>
+                    <TextBox Text=":" Grid.Column="1" IsReadOnly="True" BorderBrush="White" SelectionBrush="{x:Null}"/>
+                    <TextBox Text="{Binding Time.Minutes, UpdateSourceTrigger=PropertyChanged}" Grid.Column="2" MaxLength="2" BorderBrush="White" Width="25"/>
+                    <TextBox Text=":" Grid.Column="3" IsReadOnly="True" BorderBrush="White" SelectionBrush="{x:Null}"/>
+                    <TextBox Text="{Binding Time.Seconds, UpdateSourceTrigger=PropertyChanged}" Grid.Column="4" MaxLength="2" BorderBrush="White" Width="25"/>
+                    <TextBox Text="." Grid.Column="5" IsReadOnly="True" BorderBrush="White" SelectionBrush="{x:Null}"/>
+                    <TextBox Text="{Binding Time.Ms, UpdateSourceTrigger=PropertyChanged}" Grid.Column="6" MaxLength="5" BorderBrush="White" Width="50"/>
+
+                </Grid>
+            </Grid>
+            <ComboBox    
+				ItemsSource="{Binding SubMessage}"
+				DisplayMemberPath="Key"
+				IsEditable="True"
+				IsReadOnly="True"
+				Text="Select Event SubMessage" 
+                VerticalAlignment="Center"
+                Grid.Row="1"
+                Margin="0,0,0,15" 
+                SelectedItem="{Binding SelectedSubMessage}" HorizontalAlignment="Center"
+            />
+            <Grid Grid.Row="2" Margin="0,0,0,15">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <TextBox Text="Event ID / Trouble Type:" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="White" SelectionBrush="{x:Null}" VerticalAlignment="Center" Margin="0,0,15,15" HorizontalAlignment="Right"/>
+                <TextBox Text="{Binding Id}" Grid.Column="1" MaxLength="2" VerticalAlignment="Center" Margin="15,0,0,15" Width="25" HorizontalAlignment="Left"/>
+                <TextBox Text="Originator:" Grid.Row="1" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="White" SelectionBrush="{x:Null}" VerticalAlignment="Center" Margin="0,0,15,15" HorizontalAlignment="Right"/>
+                <TextBox Text="{Binding Originator}" Grid.Row="1" Grid.Column="1" MaxLength="6" VerticalAlignment="Center" Margin="15,0,0,15" Width="50" HorizontalAlignment="Left"/>
+                <TextBox Text="Event Level:" Grid.Row="2 " Background="{x:Null}" BorderBrush="{x:Null}" Foreground="White" SelectionBrush="{x:Null}" VerticalAlignment="Center"  HorizontalAlignment="Right" Margin="0,0,15,15"/>
+                <TextBox Text="{Binding EventLevel}" Grid.Row="2" Grid.Column="1" MaxLength="2" VerticalAlignment="Center" Width="25" HorizontalAlignment="Left" Margin="15,0,0,15"/>
+            </Grid>
+        </Grid>
+    </StackPanel>
+</UserControl>
