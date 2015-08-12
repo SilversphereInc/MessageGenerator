@@ -82,14 +82,6 @@
             <Grid>
                 <Rectangle x:Name="Menu" Fill="#FFF3EDED"/>
                 <StackPanel>
-                    <Button
-                        Content="Flood"
-                        Background="{x:Null}"
-                        BorderBrush="{x:Null}" 
-                        Margin="5,5,5,0"
-                        Command="{Binding FloodCommand}"
-                        CommandParameter="Flood" HorizontalContentAlignment="Left"
-                        />
                     <Button 
                         Content="Create"
                         Background="{x:Null}"
@@ -97,6 +89,14 @@
                         Margin="5,0"
                         Command="{Binding CreateCommand}"
                         CommandParameter="Create" HorizontalContentAlignment="Left"
+                        />
+                    <Button
+                        Content="Flood"
+                        Background="{x:Null}"
+                        BorderBrush="{x:Null}" 
+                        Margin="5,5,5,0"
+                        Command="{Binding FloodCommand}"
+                        CommandParameter="Flood" HorizontalContentAlignment="Left"
                         />
                 </StackPanel>
             </Grid>

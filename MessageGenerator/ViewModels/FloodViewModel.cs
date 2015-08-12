@@ -11,8 +11,6 @@ namespace MessageGenerator.ViewModels
     class FloodViewModel: Classes.ViewModelBase
     {
 
-        
-
         private List<string> _MessageDisplay;
         public List<string> MessageDisplay
         {
@@ -63,6 +61,17 @@ namespace MessageGenerator.ViewModels
             
         }
 
+        private bool _EnableButtons = true;
+        public bool EnableButtons
+        {
+            get { return _EnableButtons; }
+            set
+            { 
+                _EnableButtons = value;
+                OnPropertyChanged("EnableButtons");
+            }
+        }
+
         private int _SelectedIndex;
         public int SelectedIndex
         {
@@ -71,6 +80,17 @@ namespace MessageGenerator.ViewModels
             { 
                 _SelectedIndex = value;
                 OnPropertyChanged("SelectedIndex");
+            }
+        }
+
+        private string _StatusMessage;
+        public string StatusMessage
+        {
+            get { return _StatusMessage; }
+            set 
+            {
+                _StatusMessage = value;
+                OnPropertyChanged("StatusMessage");
             }
         }
         
@@ -113,6 +133,9 @@ namespace MessageGenerator.ViewModels
 
         private void SendSelected(object obj)
         {
+            
+            EnableButtons = false;
+
             System.Net.Sockets.TcpClient _ClientSocket = new System.Net.Sockets.TcpClient();
             _ClientSocket.Connect("127.0.0.1", 1337);
 
@@ -120,15 +143,32 @@ namespace MessageGenerator.ViewModels
 
             List<List<byte>> list = Models.MessageCollectionModel.Current.GetAllMessages();
 
-            for (int i = 0; i < RunCount; i++)
-            {
-                byte[] bytes = new Classes.CrcTelTron().Modify(list[SelectedIndex].ToArray());
- 
-                serverStream.Write(bytes, 0, bytes.Length);
-                serverStream.Flush();
-            }
 
-            _ClientSocket.Close();
+            System.ComponentModel.BackgroundWorker bgw = new System.ComponentModel.BackgroundWorker();
+
+            bgw.DoWork += (sender, evnt) =>
+                {
+                    for (int i = 0; i < RunCount; i++)
+                    {
+                        byte[] bytes = new Classes.CrcTelTron().Modify(list[SelectedIndex].ToArray());
+
+                        serverStream.Write(bytes, 0, bytes.Length);
+                        serverStream.Flush();
+                        System.Threading.Thread.Sleep(1);
+                    }
+                };
+
+            bgw.RunWorkerCompleted += (sender, evnt) =>
+                {
+                    StatusMessage = "";
+                    EnableButtons = true;
+                };
+    
+           
+            bgw.RunWorkerAsync();
+            
+
+            //_ClientSocket.Close();
 
           
         }

@@ -23,14 +23,17 @@
                 Background="#59FFFFFF"
                 SelectedIndex="{Binding SelectedIndex}"
                 />
-            <Grid Grid.Row="1" VerticalAlignment="Top" Margin="10,0">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="1*"/>
-                </Grid.ColumnDefinitions>
-                <TextBox Text="Times to run:" Background="#FFDEDBDB" IsReadOnly="True"/>
-                <TextBox Text="{Binding RunCount}" Grid.Column="1" Margin="0" TextWrapping="Wrap" MaxLength="9999" FlowDirection="RightToLeft"/>
-            </Grid>
+            <StackPanel Orientation="Vertical" Grid.Row="1" Margin="5,0">
+                <Grid VerticalAlignment="Top">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBox Text="Times to run:" Background="#FFDEDBDB" IsReadOnly="True"/>
+                    <TextBox Text="{Binding RunCount}" Grid.Column="1" Margin="0" TextWrapping="Wrap" MaxLength="9999" FlowDirection="RightToLeft"/>
+                </Grid>
+                <Label Content="{Binding StatusMessage}" HorizontalAlignment="Right" Foreground="White"/>
+            </StackPanel>
 
             <Grid Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,5,5">
                 <Grid.ColumnDefinitions>
@@ -45,6 +48,7 @@
                     Margin="0,0,5,0"
                     Command="{Binding AllCommand}"
                     CommandParameter="All"
+                    IsEnabled="{Binding EnableButtons}"
                     />
                 <Button 
                     Content="Selected" 
@@ -53,6 +57,7 @@
                     Grid.Column="1" 
                     Command="{Binding SelectedCommand}"
                     CommandParameter="Selected"
+                    IsEnabled="{Binding EnableButtons}"
                     />
             </Grid>
 
