@@ -30,7 +30,7 @@
                         <ColumnDefinition Width="1*"/>
                     </Grid.ColumnDefinitions>
                     <TextBox Text="Times to run:" Background="#FFDEDBDB" IsReadOnly="True"/>
-                    <TextBox Text="{Binding RunCount}" Grid.Column="1" Margin="0" TextWrapping="Wrap" MaxLength="9999" FlowDirection="RightToLeft"/>
+                    <TextBox Text="{Binding RunCount}" Grid.Column="1" Margin="0" TextWrapping="Wrap" MaxLength="9999" HorizontalContentAlignment="Right"/>
                 </Grid>
                 <Label Content="{Binding StatusMessage}" HorizontalAlignment="Right" Foreground="White"/>
             </StackPanel>
@@ -48,10 +48,10 @@
                     Margin="0,0,5,0"
                     Command="{Binding AllCommand}"
                     CommandParameter="All"
-                    IsEnabled="{Binding EnableButtons}"
+                    IsEnabled="{Binding EnableButtons}" Visibility="Collapsed"
                     />
                 <Button 
-                    Content="Selected" 
+                    Content="Send" 
                     Width="55" 
                     Height="30" 
                     Grid.Column="1" 

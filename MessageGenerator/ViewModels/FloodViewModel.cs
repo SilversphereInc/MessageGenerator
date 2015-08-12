@@ -133,39 +133,58 @@ namespace MessageGenerator.ViewModels
 
         private void SendSelected(object obj)
         {
-            
             EnableButtons = false;
+            bool connected = false;
 
-            System.Net.Sockets.TcpClient _ClientSocket = new System.Net.Sockets.TcpClient();
-            _ClientSocket.Connect("127.0.0.1", 1337);
+            NetworkStream serverStream = null;
+            System.Net.Sockets.TcpClient _ClientSocket = null;
 
-            NetworkStream serverStream = _ClientSocket.GetStream();
+            try
+            {
+                _ClientSocket = new System.Net.Sockets.TcpClient();
+                _ClientSocket.Connect("127.0.0.1", 1337);
 
-            List<List<byte>> list = Models.MessageCollectionModel.Current.GetAllMessages();
+                serverStream = _ClientSocket.GetStream();
+                
+                connected = true;
+            }
+            catch
+            {
+                StatusMessage = "Error! Could not connect.";
+                EnableButtons = true;
+            }
 
+            if (connected == true)
+            {
 
-            System.ComponentModel.BackgroundWorker bgw = new System.ComponentModel.BackgroundWorker();
+                List<List<byte>> list = Models.MessageCollectionModel.Current.GetAllMessages();
 
-            bgw.DoWork += (sender, evnt) =>
-                {
-                    for (int i = 0; i < RunCount; i++)
+                System.ComponentModel.BackgroundWorker bgw = new System.ComponentModel.BackgroundWorker();
+
+                bgw.DoWork += (sender, evnt) =>
                     {
-                        byte[] bytes = new Classes.CrcTelTron().Modify(list[SelectedIndex].ToArray());
+                        for (int i = 0; i < RunCount; i++)
+                        {
+                            byte[] bytes = new Classes.CrcTelTron().Modify(list[SelectedIndex].ToArray());
 
-                        serverStream.Write(bytes, 0, bytes.Length);
-                        serverStream.Flush();
-                        System.Threading.Thread.Sleep(1);
-                    }
-                };
+                            serverStream.Write(bytes, 0, bytes.Length);
+                            serverStream.Flush();
 
-            bgw.RunWorkerCompleted += (sender, evnt) =>
+                            StatusMessage = "Currently sending " + (i + 1).ToString() + " of " + RunCount.ToString() + " events.";
+
+                            System.Threading.Thread.Sleep(1);
+                        }
+                    };
+
+                bgw.RunWorkerCompleted += (sender, evnt) =>
                 {
-                    StatusMessage = "";
+                    StatusMessage = "Finished sending " + RunCount.ToString() + " events.";
                     EnableButtons = true;
                 };
-    
-           
-            bgw.RunWorkerAsync();
+
+                bgw.RunWorkerAsync();
+            }
+            
             
 
             //_ClientSocket.Close();
