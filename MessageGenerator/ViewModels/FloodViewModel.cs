@@ -61,6 +61,28 @@ namespace MessageGenerator.ViewModels
             
         }
 
+        private int _Port = 1337;
+        public int Port
+        {
+            get { return _Port; }
+            set 
+            { 
+                _Port = value;
+                OnPropertyChanged("Port");
+            }
+        }
+
+        private string _Address = "127.0.0.1";
+        public string Address
+        {
+            get { return _Address; }
+            set 
+            {
+                _Address = value;
+                OnPropertyChanged("Address");
+            }
+        }
+
         private bool _EnableButtons = true;
         public bool EnableButtons
         {
@@ -142,7 +164,7 @@ namespace MessageGenerator.ViewModels
             try
             {
                 _ClientSocket = new System.Net.Sockets.TcpClient();
-                _ClientSocket.Connect("127.0.0.1", 1337);
+                _ClientSocket.Connect(Address, Port);
 
                 serverStream = _ClientSocket.GetStream();
                 
